@@ -1,0 +1,36 @@
+.icon {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+html, body {
+    background: #fff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.text-right {
+    text-align: right;
+}
+
+td.inline-children {
+    width: 100px;
+}
+
+.inline-children > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.my-table {
+    width: 100%;
+}
+
+.my-table td {
+    padding: 6px;
+    vertical-align: top;
+}
