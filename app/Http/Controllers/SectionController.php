@@ -12,23 +12,22 @@ class SectionController extends Controller
 {
 
     public function index()
-    {    
-        return view('sections.index', [
-            'data' => Section::latest()->paginate(5),
-            'i' => (request()->input('page', 1) - 1) * 5
+    {
+        return view('admin.sections.index', [
+            'data' => Section::latest()->paginate(25),
+            'i' => (request()->input('page', 1) - 1) * 25
         ]);
     }
 
     public function create()
     {
-        return view('sections.create');
+        return view('admin.sections.create');
     }
 
     public function store(MainRequest $request, SectionRepository $repository)
     {
-
         $repository->create($request);
-     
+
         return redirect()->route('sections.index')->with('success','Item created successfully.');
     }
 
@@ -39,7 +38,7 @@ class SectionController extends Controller
 
     public function edit($id)
     {
-        return view('sections.edit', [
+        return view('admin.sections.edit', [
             'data' => Section::find($id)
         ]);
     }
@@ -47,7 +46,7 @@ class SectionController extends Controller
     public function update(MainRequest $request, SectionRepository $repository, $id)
     {
         $repository->update($request, $id);
-    
+
         return redirect()->route('sections.index')->with('success','Item updated successfully');
     }
 

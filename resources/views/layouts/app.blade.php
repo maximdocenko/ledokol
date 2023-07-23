@@ -20,6 +20,60 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <!--<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>-->
+    <style>
+        .tox-notifications-container {
+            display: none;
+        }
+    </style>
+    <script>
+        $(document).ready(function (){
+            /*new SimpleMDE({ element: document.getElementById("simplemde_description_ru") });
+            new SimpleMDE({ element: document.getElementById("simplemde_description_uz") });
+            new SimpleMDE({ element: document.getElementById("simplemde_description_en") });
+            new SimpleMDE({ element: document.getElementById("simplemde_content_ru") });
+            new SimpleMDE({ element: document.getElementById("simplemde_content_uz") });
+            new SimpleMDE({ element: document.getElementById("simplemde_content_en") });*/
+            tinymce.init({
+                //selector: 'textarea#simplemde_description_uz', // Replace this CSS selector to match the placeholder element for TinyMCE
+                plugins: 'powerpaste advcode table lists checklist image code',
+                toolbar: 'undo redo | blocks| bold italic | bullist numlist checklist | code | table | link image',
+                selector: 'textarea',  // change this value according to your HTML
+                image_title: true,
+                automatic_uploads: true,
+                file_picker_types: 'image',
+                file_picker_callback: function (cb, value, meta) {
+                    var input = document.createElement('input');
+                    input.setAttribute('type', 'file');
+                    input.setAttribute('accept', 'image/*');
+
+                    input.onchange = function () {
+                        var file = this.files[0];
+
+                        var reader = new FileReader();
+                        reader.onload = function () {
+                            var id = 'blobid' + (new Date()).getTime();
+                            var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                            var base64 = reader.result.split(',')[1];
+                            var blobInfo = blobCache.create(id, file, base64);
+                            blobCache.add(blobInfo);
+                            cb(blobInfo.blobUri(), { title: file.name });
+                        };
+                        reader.readAsDataURL(file);
+                    };
+
+                    input.click();
+                },
+            });
+        });
+    </script>
+
 </head>
 <body>
     <div id="app">
@@ -80,33 +134,44 @@
         <main class="py-4">
             <div class="container">
                 <div class="row">
+                    @if(!request()->is("login"))
                     <div class="col-sm-2">
                         <ul>
                             <li>
-                                <a href="{{ url('sections') }}">Sections</a>
+                                <a href="{{ url('admin/sections') }}">Sections</a>
                             </li>
                             <li>
-                                <a href="{{ url('categories') }}">Categories</a>
+                                <a href="{{ url('admin/categories') }}">Categories</a>
                             </li>
                             <li>
-                                <a href="{{ url('posts') }}">Posts</a>
+                                <a href="{{ url('admin/posts') }}">Posts</a>
                             </li>
                             <li>
-                                <a href="{{ url('companies') }}">Companies</a>
+                                <a href="{{ url('admin/pages') }}">Pages</a>
                             </li>
                             <li>
-                                <a href="{{ url('reviews') }}">Reviews</a>
+                                <a href="{{ url('admin/companies') }}">Companies</a>
                             </li>
                             <li>
-                                <a href="{{ url('employees') }}">Employees</a>
+                                <a href="{{ url('admin/reviews') }}">Reviews</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/employees') }}">Employees</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/textblocks') }}">Text blocks</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('admin/settings') }}">Settings</a>
                             </li>
                         </ul>
                     </div>
+                    @endif
                     <div class="col-sm-10">
                         @yield('content')
                     </div>
                 </div>
-                
+
             </div>
         </main>
     </div>

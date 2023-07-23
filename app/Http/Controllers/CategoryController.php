@@ -12,23 +12,22 @@ class CategoryController extends Controller
 {
 
     public function index()
-    {    
-        return view('categories.index', [
-            'data' => Category::latest()->paginate(5),
-            'i' => (request()->input('page', 1) - 1) * 5
+    {
+        return view('admin.categories.index', [
+            'data' => Category::latest()->paginate(25),
+            'i' => (request()->input('page', 1) - 1) * 25
         ]);
     }
 
     public function create()
     {
-        return view('categories.create');
+        return view('admin.categories.create');
     }
 
     public function store(MainRequest $request, CategoryRepository $repository)
     {
-
         $repository->create($request);
-     
+
         return redirect()->route('categories.index')->with('success','Item created successfully.');
     }
 
@@ -39,7 +38,7 @@ class CategoryController extends Controller
 
     public function edit($id)
     {
-        return view('categories.edit', [
+        return view('admin.categories.edit', [
             'data' => Category::find($id)
         ]);
     }
@@ -47,7 +46,7 @@ class CategoryController extends Controller
     public function update(MainRequest $request, CategoryRepository $repository, $id)
     {
         $repository->update($request, $id);
-    
+
         return redirect()->route('categories.index')->with('success','Item updated successfully');
     }
 

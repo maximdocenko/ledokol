@@ -24,32 +24,40 @@ class MainRequest extends FormRequest
     public function rules()
     {
 
-        $resource = app('request')->segment(1);
+        $resource = app('request')->segment(2);
+        //dd( app('request')->segment(2));
 
-        $rules = [
-            'name' => 'required',
-            'slug' => 'required|unique:'.$resource,
-            //'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-        ];
+        $rules = [];
+
+        if($resource != 'companies' && $resource != 'textblocks' && $resource != 'reviews' && $resource != 'employees') {
+
+            $rules['name'] = 'required';
+            $rules['slug'] = 'required|unique:'.$resource;
+            $rules = [
+                //'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            ];
+
+            if ($this->method() == 'PUT') {
+                $rules['slug'] = 'required|unique:'.$resource.',slug,'. app('request')->segment(3);
+            }
+
+        }
 
         if($resource == 'posts') {
-            $rules['section'] = 'required';
-            $rules['employee'] = 'required';
+            //$rules['section'] = 'required';
+            //$rules['employee'] = 'required';
         }
 
         if($resource == 'posts' || $resource == 'sections') {
             $rules['description'] = 'required';
         }
 
-        if($resource == 'categories' || $resource == 'posts' || $resource == 'sections') {
+        if($resource == 'categories' || $resource == 'posts' || $resource == 'sections' || $resource == 'pages') {
             $rules['seo_title'] = 'required';
             $rules['seo_description'] = 'required';
         }
 
-        if ($this->method() == 'PUT') {
-            $rules['slug'] = 'required|unique:'.$resource.',slug,'. app('request')->segment(2);
-        }
-
         return $rules;
+
     }
 }

@@ -12,23 +12,23 @@ class EmployeeController extends Controller
 {
 
     public function index()
-    {    
-        return view('employees.index', [
-            'data' => Employee::latest()->paginate(5),
-            'i' => (request()->input('page', 1) - 1) * 5
+    {
+        return view('admin.employees.index', [
+            'data' => Employee::latest()->paginate(25),
+            'i' => (request()->input('page', 1) - 1) * 25
         ]);
     }
 
     public function create()
     {
-        return view('employees.create');
+        return view('admin.employees.create');
     }
 
     public function store(MainRequest $request, EmployeeRepository $repository)
     {
-
+        //dd($request->name);
         $repository->create($request);
-     
+
         return redirect()->route('employees.index')->with('success','Item created successfully.');
     }
 
@@ -39,7 +39,7 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
-        return view('employees.edit', [
+        return view('admin.employees.edit', [
             'data' => Employee::find($id)
         ]);
     }
@@ -47,7 +47,7 @@ class EmployeeController extends Controller
     public function update(MainRequest $request, EmployeeRepository $repository, $id)
     {
         $repository->update($request, $id);
-    
+
         return redirect()->route('employees.index')->with('success','Item updated successfully');
     }
 

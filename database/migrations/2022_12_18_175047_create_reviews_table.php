@@ -17,7 +17,9 @@ class CreateReviewsTable extends Migration
             $table->id();
             $table->string("image", 500)->nullable();
             $table->string("name", 500)->nullable();
-            $table->longtext("review")->nullable();
+            $table->string("avatar", 500)->nullable();
+            $table->string("author", 500)->nullable();
+            $table->longtext("description")->nullable();
             $table->string("url", 500)->nullable();
             $table->string("url_type", 500)->nullable();
             $table->timestamps();

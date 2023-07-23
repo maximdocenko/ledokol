@@ -18,6 +18,7 @@ class CreateEmployeesTable extends Migration
             $table->string("name", 500)->nullable();
             $table->string("slug", 500)->nullable();
             $table->string("image", 500)->nullable();
+            $table->integer("top", 1)->default(0);
             $table->timestamps();
         });
     }

@@ -34,3 +34,7 @@ td.inline-children {
     padding: 6px;
     vertical-align: top;
 }
+
+.form-control {
+    margin-bottom: 15px;
+}

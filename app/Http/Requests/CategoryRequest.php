@@ -24,7 +24,6 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         $resource = app('request')->segment(1);
-        
 
         $rules = [
             'name' => 'required',
@@ -35,7 +34,7 @@ class CategoryRequest extends FormRequest
         ];
 
         if ($this->method() == 'PUT') {
-            $rules['slug'] = 'required|unique:categories,slug,'. app('request')->segment(2);
+            $rules['slug'] = 'required|unique:categories,slug,'. app('request')->segment(3);
         }
 
         return $rules;
